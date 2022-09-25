@@ -1,8 +1,8 @@
 body {
     height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .container {
@@ -33,4 +33,20 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.username {
+    font-weight: bold;
+    color: lightseagreen;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+}
+
+h2{
+    margin-bottom: 30px;
+    background-color: lightseagreen;
+    color: white;
+    padding: 3px 5px;
+    border-radius: 5px;
 }
