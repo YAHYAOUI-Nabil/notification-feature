@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import CommentIcon from '@mui/icons-material/Comment';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import InfoIcon from '@mui/icons-material/Info';
 
@@ -46,9 +46,12 @@ const Info = styled.div`
 
 `
 
-
-
 const Card = ({post}) => {
+  const [liked, setLiked] = useState(false)
+
+  const handleClick = () => {
+    setLiked(prev => !prev)
+  }
   return (
     <Container>
         <Profile>
@@ -58,11 +61,17 @@ const Card = ({post}) => {
         <PostImage src={post.postImg} alt={`${post.fullname}${post.username}`}/>
         <Interactions>
           <Icons>
+            {liked ? (
+              <Icon onClick={handleClick}>
+                <FavoriteIcon />
+              </Icon>
+            ) : (
+              <Icon onClick={handleClick}>
+                <FavoriteBorderIcon />
+              </Icon>
+            )}
             <Icon>
-              <FavoriteBorderIcon />
-            </Icon>
-            <Icon>
-              <CommentIcon />
+              <ChatBubbleOutlineIcon />
             </Icon>
             <Icon>
               <ShareIcon />
