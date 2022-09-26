@@ -7,6 +7,7 @@ import { Badge } from '@mui/material';
 
 const Container = styled.div`
     display: flex;
+    align-items: center;
     justify-content: space-around;
     padding: 1rem 0;
     background-color: #21b2ab;
@@ -18,9 +19,12 @@ const Logo = styled.span`
 const Icons = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 1rem;
 `
-const Icon = styled.div``
+const Icon = styled.div`
+    cursor: pointer;
+`
 
 
 const Navbar = () => {
