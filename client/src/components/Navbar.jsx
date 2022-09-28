@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
@@ -27,27 +27,64 @@ const Icon = styled.div`
 `
 
 
-const Navbar = () => {
+const Navbar = ({socket}) => {
+    const [notifications, setNotifications] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    socket?.on("getNotification", (data) => {
+      setNotifications((prev) => [...prev, data]);
+    });
+  }, [socket]);
+
+  const displayNotification = ({ senderName, type }) => {
+    let action;
+
+    if (type === 1) {
+      action = "liked";
+    } else if (type === 2) {
+      action = "commented";
+    } else {
+      action = "shared";
+    }
+    return (
+      <span className="notification">{`${senderName} ${action} your post.`}</span>
+    );
+  };
+
+  const handleRead = () => {
+    setNotifications([]);
+    setOpen(false);
+  };
+
   return (
     <Container>
         <Logo>NABIL DEV</Logo>
         <Icons>
-            <Icon>
-                <Badge badgeContent={4} color="error">
+            <Icon onClick={() => setOpen(!open)}>
+                <Badge badgeContent={notifications.length} color="error">
                     <NotificationsIcon sx={{color:'white'}}/>
                 </Badge>
             </Icon>
-            <Icon>
-                <Badge badgeContent={4} color="error">
+            <Icon onClick={() => setOpen(!open)}>
+                <Badge color="error">
                     <LocalPostOfficeIcon sx={{color:'white'}}/>
                 </Badge>
             </Icon>
-            <Icon>
-                <Badge badgeContent={4} color="error">
+            <Icon onClick={() => setOpen(!open)}>
+                <Badge color="error" >
                     <SettingsIcon sx={{color:'white'}}/>
                 </Badge>
             </Icon>
         </Icons>
+        {open && (
+        <div className="notifications">
+          {notifications.map((n) => displayNotification(n))}
+          <button className="nButton" onClick={handleRead}>
+            Mark as read
+          </button>
+        </div>
+        )}
     </Container>
   )
 }

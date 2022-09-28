@@ -46,12 +46,19 @@ const Info = styled.div`
 
 `
 
-const Card = ({post}) => {
+const Card = ({post, socket, user}) => {
   const [liked, setLiked] = useState(false)
 
-  const handleClick = () => {
-    setLiked(prev => !prev)
-  }
+  const handleNotification = (type) => {
+    type === 1 && setLiked(prev => !prev);
+    console.log('1')
+    socket?.emit("sendNotification", {
+      senderName: user,
+      receiverName: post.username,
+      type,
+    });
+  };
+
   return (
     <Container>
         <Profile>
@@ -62,18 +69,18 @@ const Card = ({post}) => {
         <Interactions>
           <Icons>
             {liked ? (
-              <Icon onClick={handleClick}>
-                <FavoriteIcon />
+              <Icon>
+                <FavoriteIcon onClick={handleNotification(1)}/>
               </Icon>
             ) : (
-              <Icon onClick={handleClick}>
+              <Icon>
                 <FavoriteBorderIcon />
               </Icon>
             )}
-            <Icon>
+            <Icon onClick={handleNotification(2)}>
               <ChatBubbleOutlineIcon />
             </Icon>
-            <Icon>
+            <Icon onClick={handleNotification(3)}>
               <ShareIcon />
             </Icon>
           </Icons>
